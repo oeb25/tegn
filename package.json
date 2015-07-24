@@ -1,0 +1,29 @@
+{
+  "name": "tegn",
+  "version": "0.1.0",
+  "description": "Stateless canvas wrapper",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "rm -rf lib & babel src -d lib",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oeb25/tegn.git"
+  },
+  "keywords": [
+    "html5",
+    "games",
+    "render",
+    "canvas"
+  ],
+  "author": "Oliver Bøving",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oeb25/tegn/issues"
+  },
+  "homepage": "https://github.com/oeb25/tegn#readme",
+  "devDependencies": {
+    "babel": "^5.8.3"
+  }
+}
