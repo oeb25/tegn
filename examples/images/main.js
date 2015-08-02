@@ -19,7 +19,7 @@ img.src = 'assets/star.png';
 
 const imageFromDOMElement = {
 
-  // It can either be a string or a image element.
+  // It can either be a string or a image element or a canvas element.
   src: img,
 
   x: 10,
