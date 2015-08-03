@@ -54,3 +54,27 @@ tegn(ctx, {
 
   children: [ guy ]
 });
+
+let times = [];
+
+let loop = () => {
+  console.clear();
+  let start = Date.now();
+  console.time('total');
+  tegn(ctx, {
+    fill: '#333',
+
+    width,
+    height,
+
+    children: [ guy ]
+  });
+  console.timeEnd('total');
+  times.push(Date.now() - start);
+
+  console.log('Averange:', ~~((times.reduce((a, b) => a+b) / times.length) * 100));
+
+  setTimeout(loop, 1);
+}
+
+loop();

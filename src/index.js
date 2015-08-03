@@ -1,20 +1,21 @@
 const cache = {};
 
-export default function tegn(context, state, opts = { initial: true }) {
+export default function tegn(ctx, state, offset = [0, 0]) {
   if (!state) return false;
-
-  const { offset = [0, 0], initial } = opts;
-
-  const ctx = initial ? context.offscreenCtx : context;
 
   if (Array.isArray(state)) {
     state.map(child => tegn(ctx, child, offset));
-  } else {
-    const x = offset[0] + (state.x || 0);
-    const y = offset[1] + (state.y || 0);
 
+    return state;
+  }
+
+  const x = offset[0] + (state.x || 0);
+  const y = offset[1] + (state.y || 0);
+
+  if (x < ctx.canvas.width && y < ctx.canvas.height) {
     if (state.fill) {
-      ctx.fillStyle = state.color || state.fill;
+      if (ctx.fillStyle !== state.fill)
+        ctx.fillStyle = state.color || state.fill;
       ctx.fillRect(x, y, state.width || 0, state.height || 0);
     }
 
@@ -24,10 +25,11 @@ export default function tegn(context, state, opts = { initial: true }) {
     }
 
     if (state.src) {
-      if (state.width && state.height)
+      if (state.width && state.height) {
         ctx.drawImage(image(state.src), x, y, state.width, state.height);
-      else
+      } else {
         ctx.drawImage(image(state.src), x, y);
+      }
     }
 
     if (state.text) {
@@ -40,15 +42,14 @@ export default function tegn(context, state, opts = { initial: true }) {
 
       ctx.fillText(state.text, x, y);
     }
-
-    if (state.children) {
-      state.children.map(child =>
-        tegn(ctx, child, { offset: [x, y], initial: false }));
-    }
   }
 
-  if (initial) {
-    context.drawImage(context.offscreenCanvas, 0, 0);
+  if (state.children) {
+    let len = state.children.length;
+
+    for (let i = 0; i < len; i++) {
+      tegn(ctx, state.children[i], [x, y]);
+    }
   }
 
   return state;
