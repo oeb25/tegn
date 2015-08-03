@@ -14,9 +14,14 @@ export default function tegn(ctx, state, offset = [0, 0]) {
 
   if (x < ctx.canvas.width && y < ctx.canvas.height) {
     if (state.fill) {
-      if (ctx.fillStyle !== state.fill)
-        ctx.fillStyle = state.color || state.fill;
-      ctx.fillRect(x, y, state.width || 0, state.height || 0);
+      if (state.fill === 'clear') {
+        ctx.clearRect(x, y, state.width || 0, state.height || 0);
+      } else {
+        if (ctx.fillStyle !== state.fill) {
+          ctx.fillStyle = state.color || state.fill;
+        }
+        ctx.fillRect(x, y, state.width || 0, state.height || 0);
+      }
     }
 
     if (state.stroke) {
